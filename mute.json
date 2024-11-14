@@ -185,7 +185,7 @@
                           "timeoutDuration": "5",
                           "reason": "${tempVars('reason-muted') || \"No reason provided\"} | ${command.author.name}"
                         },
-                        "id": 1731607253920
+                        "id": 1731625906651
                       },
                       {
                         "name": "Randomize Letters",
@@ -218,7 +218,7 @@
                             "value": "generate-case_id"
                           }
                         },
-                        "id": 1731607253921
+                        "id": 1731625906652
                       },
                       {
                         "name": "SQLite Query",
@@ -228,13 +228,13 @@
                           "database": "moderation.sqlite",
                           "query": "INSERT INTO timeout (user_id, reason, case_id, staff_id)\nVALUES ('${bridge.variables['user-selected'].id}', '${tempVars('reason-muted')}', '${tempVars('generate-case_id')}', '${command.author.id}');",
                           "toggle": true,
-                          "logToConsole": true,
+                          "logToConsole": false,
                           "store": {
                             "type": "temporary",
                             "value": ""
                           }
                         },
-                        "id": 1731607253922
+                        "id": 1731625906653
                       },
                       {
                         "name": "Send Message",
@@ -272,7 +272,64 @@
                           "updateEmbeds": false,
                           "updateAttachments": false
                         },
-                        "id": 1731607253923
+                        "id": 1731625906654
+                      },
+                      {
+                        "name": "Send Message",
+                        "file": "sendmessage.js",
+                        "data": {
+                          "name": "Send Message",
+                          "messageContent": "",
+                          "actionRows": [],
+                          "embeds": [
+                            {
+                              "type": "embed",
+                              "data": {
+                                "title": "",
+                                "embedColor": "#313338",
+                                "footerContent": "",
+                                "imageURL": "",
+                                "footerIconURL": "",
+                                "thumbnailURL": "",
+                                "authorName": "Timeout",
+                                "authorIcon": "${bridge.variables['user-selected'].avatarURL()}",
+                                "description": "You have been timed out in **${guild.name}**. (Expires: <t:${Math.floor(new Date().setSeconds(new Date().getSeconds() + 300) / 1000)}:R>)\nReason: ${tempVars('reason-muted') || \"No reason provided\"}",
+                                "fields": [],
+                                "url": "",
+                                "timestamp": "None",
+                                "customTimestamp": ""
+                              }
+                            }
+                          ],
+                          "channel": {
+                            "type": "tempVar",
+                            "value": "user-selected"
+                          },
+                          "storeAs": {
+                            "value": "",
+                            "type": "none"
+                          },
+                          "replyToInteraction": false,
+                          "options": [
+                            {
+                              "type": "options"
+                            }
+                          ],
+                          "attachments": [],
+                          "poll": [],
+                          "mentions": false,
+                          "dontSend": false,
+                          "ephemeral": false,
+                          "updateMessage": {
+                            "type": "none",
+                            "value": ""
+                          },
+                          "updateContent": false,
+                          "updateComponents": false,
+                          "updateEmbeds": false,
+                          "updateAttachments": false
+                        },
+                        "id": 1731625906655
                       }
                     ],
                     "label": "5 Minutes",
@@ -287,7 +344,167 @@
                 {
                   "type": "selectMenu",
                   "data": {
-                    "actions": [],
+                    "actions": [
+                      {
+                        "name": "Timeout Member",
+                        "file": "timeoutMember.js",
+                        "data": {
+                          "name": "Timeout Member",
+                          "member": {
+                            "type": "tempVar",
+                            "value": "user-selected"
+                          },
+                          "unitsOfTime": "Minute(s)",
+                          "timeoutDuration": "10",
+                          "reason": "${tempVars('reason-muted') || \"No reason provided\"} | ${command.author.name}"
+                        },
+                        "id": 1731625906657
+                      },
+                      {
+                        "name": "Randomize Letters",
+                        "file": "randomizeLetters_MOD.js",
+                        "data": {
+                          "name": "Randomize Letters",
+                          "length": "5",
+                          "lowercase": {
+                            "type": "true",
+                            "value": ""
+                          },
+                          "uppercase": {
+                            "type": "true",
+                            "value": ""
+                          },
+                          "numeric": {
+                            "type": "true",
+                            "value": ""
+                          },
+                          "special": {
+                            "type": "false",
+                            "value": ""
+                          },
+                          "custom": {
+                            "type": "false",
+                            "value": ""
+                          },
+                          "letters": {
+                            "type": "temporary",
+                            "value": "generate-case_id"
+                          }
+                        },
+                        "id": 1731625906658
+                      },
+                      {
+                        "name": "SQLite Query",
+                        "file": "sqliteQuery_MOD.js",
+                        "data": {
+                          "name": "SQLite Query",
+                          "database": "moderation.sqlite",
+                          "query": "INSERT INTO timeout (user_id, reason, case_id, staff_id)\nVALUES ('${bridge.variables['user-selected'].id}', '${tempVars('reason-muted')}', '${tempVars('generate-case_id')}', '${command.author.id}');",
+                          "toggle": true,
+                          "logToConsole": false,
+                          "store": {
+                            "type": "temporary",
+                            "value": ""
+                          }
+                        },
+                        "id": 1731625906659
+                      },
+                      {
+                        "name": "Send Message",
+                        "file": "sendmessage.js",
+                        "data": {
+                          "name": "Send Message",
+                          "messageContent": "${tempVars('user-selected')} has been muted. `( ${tempVars('generate-case_id')} )`\n**Reason:** ` ${tempVars('reason-muted') || \"No reason provided\"} `\n\n**Duration:** <t:${Math.floor(new Date().setSeconds(new Date().getSeconds() + 600) / 1000)}:R>",
+                          "actionRows": [],
+                          "embeds": [],
+                          "channel": {
+                            "type": "command",
+                            "value": ""
+                          },
+                          "storeAs": {
+                            "value": "",
+                            "type": "none"
+                          },
+                          "replyToInteraction": true,
+                          "options": [
+                            {
+                              "type": "options"
+                            }
+                          ],
+                          "attachments": [],
+                          "poll": [],
+                          "mentions": false,
+                          "dontSend": false,
+                          "ephemeral": true,
+                          "updateMessage": {
+                            "type": "interactionReply",
+                            "value": ""
+                          },
+                          "updateContent": false,
+                          "updateComponents": false,
+                          "updateEmbeds": false,
+                          "updateAttachments": false
+                        },
+                        "id": 1731625906660
+                      },
+                      {
+                        "name": "Send Message",
+                        "file": "sendmessage.js",
+                        "data": {
+                          "name": "Send Message",
+                          "messageContent": "",
+                          "actionRows": [],
+                          "embeds": [
+                            {
+                              "type": "embed",
+                              "data": {
+                                "title": "",
+                                "embedColor": "#313338",
+                                "footerContent": "",
+                                "imageURL": "",
+                                "footerIconURL": "",
+                                "thumbnailURL": "",
+                                "authorName": "Timeout",
+                                "authorIcon": "${bridge.variables['user-selected'].avatarURL()}",
+                                "description": "You have been timed out in **${guild.name}**. (Expires: <t:${Math.floor(new Date().setSeconds(new Date().getSeconds() + 600) / 1000)}:R>)\nReason: ${tempVars('reason-muted') || \"No reason provided\"}",
+                                "fields": [],
+                                "url": "",
+                                "timestamp": "None",
+                                "customTimestamp": ""
+                              }
+                            }
+                          ],
+                          "channel": {
+                            "type": "tempVar",
+                            "value": "user-selected"
+                          },
+                          "storeAs": {
+                            "value": "",
+                            "type": "none"
+                          },
+                          "replyToInteraction": false,
+                          "options": [
+                            {
+                              "type": "options"
+                            }
+                          ],
+                          "attachments": [],
+                          "poll": [],
+                          "mentions": false,
+                          "dontSend": false,
+                          "ephemeral": false,
+                          "updateMessage": {
+                            "type": "none",
+                            "value": ""
+                          },
+                          "updateContent": false,
+                          "updateComponents": false,
+                          "updateEmbeds": false,
+                          "updateAttachments": false
+                        },
+                        "id": 1731625245041
+                      }
+                    ],
                     "label": "10 Minutes",
                     "description": "",
                     "pushAs": "",
@@ -300,7 +517,167 @@
                 {
                   "type": "selectMenu",
                   "data": {
-                    "actions": [],
+                    "actions": [
+                      {
+                        "name": "Timeout Member",
+                        "file": "timeoutMember.js",
+                        "data": {
+                          "name": "Timeout Member",
+                          "member": {
+                            "type": "tempVar",
+                            "value": "user-selected"
+                          },
+                          "unitsOfTime": "Minute(s)",
+                          "timeoutDuration": "25",
+                          "reason": "${tempVars('reason-muted') || \"No reason provided\"} | ${command.author.name}"
+                        },
+                        "id": 1731625906661
+                      },
+                      {
+                        "name": "Randomize Letters",
+                        "file": "randomizeLetters_MOD.js",
+                        "data": {
+                          "name": "Randomize Letters",
+                          "length": "5",
+                          "lowercase": {
+                            "type": "true",
+                            "value": ""
+                          },
+                          "uppercase": {
+                            "type": "true",
+                            "value": ""
+                          },
+                          "numeric": {
+                            "type": "true",
+                            "value": ""
+                          },
+                          "special": {
+                            "type": "false",
+                            "value": ""
+                          },
+                          "custom": {
+                            "type": "false",
+                            "value": ""
+                          },
+                          "letters": {
+                            "type": "temporary",
+                            "value": "generate-case_id"
+                          }
+                        },
+                        "id": 1731625906662
+                      },
+                      {
+                        "name": "SQLite Query",
+                        "file": "sqliteQuery_MOD.js",
+                        "data": {
+                          "name": "SQLite Query",
+                          "database": "moderation.sqlite",
+                          "query": "INSERT INTO timeout (user_id, reason, case_id, staff_id)\nVALUES ('${bridge.variables['user-selected'].id}', '${tempVars('reason-muted')}', '${tempVars('generate-case_id')}', '${command.author.id}');",
+                          "toggle": true,
+                          "logToConsole": false,
+                          "store": {
+                            "type": "temporary",
+                            "value": ""
+                          }
+                        },
+                        "id": 1731625906663
+                      },
+                      {
+                        "name": "Send Message",
+                        "file": "sendmessage.js",
+                        "data": {
+                          "name": "Send Message",
+                          "messageContent": "${tempVars('user-selected')} has been muted. `( ${tempVars('generate-case_id')} )`\n**Reason:** ` ${tempVars('reason-muted') || \"No reason provided\"} `\n\n**Duration:** <t:${Math.floor(new Date().setSeconds(new Date().getSeconds() + 1500) / 1000)}:R>",
+                          "actionRows": [],
+                          "embeds": [],
+                          "channel": {
+                            "type": "command",
+                            "value": ""
+                          },
+                          "storeAs": {
+                            "value": "",
+                            "type": "none"
+                          },
+                          "replyToInteraction": true,
+                          "options": [
+                            {
+                              "type": "options"
+                            }
+                          ],
+                          "attachments": [],
+                          "poll": [],
+                          "mentions": false,
+                          "dontSend": false,
+                          "ephemeral": true,
+                          "updateMessage": {
+                            "type": "interactionReply",
+                            "value": ""
+                          },
+                          "updateContent": false,
+                          "updateComponents": false,
+                          "updateEmbeds": false,
+                          "updateAttachments": false
+                        },
+                        "id": 1731625906664
+                      },
+                      {
+                        "name": "Send Message",
+                        "file": "sendmessage.js",
+                        "data": {
+                          "name": "Send Message",
+                          "messageContent": "",
+                          "actionRows": [],
+                          "embeds": [
+                            {
+                              "type": "embed",
+                              "data": {
+                                "title": "",
+                                "embedColor": "#313338",
+                                "footerContent": "",
+                                "imageURL": "",
+                                "footerIconURL": "",
+                                "thumbnailURL": "",
+                                "authorName": "Timeout",
+                                "authorIcon": "${bridge.variables['user-selected'].avatarURL()}",
+                                "description": "You have been timed out in **${guild.name}**. (Expires: <t:${Math.floor(new Date().setSeconds(new Date().getSeconds() + 1500) / 1000)}:R>)\nReason: ${tempVars('reason-muted') || \"No reason provided\"}",
+                                "fields": [],
+                                "url": "",
+                                "timestamp": "None",
+                                "customTimestamp": ""
+                              }
+                            }
+                          ],
+                          "channel": {
+                            "type": "tempVar",
+                            "value": "user-selected"
+                          },
+                          "storeAs": {
+                            "value": "",
+                            "type": "none"
+                          },
+                          "replyToInteraction": false,
+                          "options": [
+                            {
+                              "type": "options"
+                            }
+                          ],
+                          "attachments": [],
+                          "poll": [],
+                          "mentions": false,
+                          "dontSend": false,
+                          "ephemeral": false,
+                          "updateMessage": {
+                            "type": "none",
+                            "value": ""
+                          },
+                          "updateContent": false,
+                          "updateComponents": false,
+                          "updateEmbeds": false,
+                          "updateAttachments": false
+                        },
+                        "id": 1731625274600
+                      }
+                    ],
                     "label": "25 Minutes",
                     "description": "",
                     "pushAs": "",
@@ -313,7 +690,167 @@
                 {
                   "type": "selectMenu",
                   "data": {
-                    "actions": [],
+                    "actions": [
+                      {
+                        "name": "Timeout Member",
+                        "file": "timeoutMember.js",
+                        "data": {
+                          "name": "Timeout Member",
+                          "member": {
+                            "type": "tempVar",
+                            "value": "user-selected"
+                          },
+                          "unitsOfTime": "Minute(s)",
+                          "timeoutDuration": "30",
+                          "reason": "${tempVars('reason-muted') || \"No reason provided\"} | ${command.author.name}"
+                        },
+                        "id": 1731625906666
+                      },
+                      {
+                        "name": "Randomize Letters",
+                        "file": "randomizeLetters_MOD.js",
+                        "data": {
+                          "name": "Randomize Letters",
+                          "length": "5",
+                          "lowercase": {
+                            "type": "true",
+                            "value": ""
+                          },
+                          "uppercase": {
+                            "type": "true",
+                            "value": ""
+                          },
+                          "numeric": {
+                            "type": "true",
+                            "value": ""
+                          },
+                          "special": {
+                            "type": "false",
+                            "value": ""
+                          },
+                          "custom": {
+                            "type": "false",
+                            "value": ""
+                          },
+                          "letters": {
+                            "type": "temporary",
+                            "value": "generate-case_id"
+                          }
+                        },
+                        "id": 1731625906667
+                      },
+                      {
+                        "name": "SQLite Query",
+                        "file": "sqliteQuery_MOD.js",
+                        "data": {
+                          "name": "SQLite Query",
+                          "database": "moderation.sqlite",
+                          "query": "INSERT INTO timeout (user_id, reason, case_id, staff_id)\nVALUES ('${bridge.variables['user-selected'].id}', '${tempVars('reason-muted')}', '${tempVars('generate-case_id')}', '${command.author.id}');",
+                          "toggle": true,
+                          "logToConsole": false,
+                          "store": {
+                            "type": "temporary",
+                            "value": ""
+                          }
+                        },
+                        "id": 1731625906668
+                      },
+                      {
+                        "name": "Send Message",
+                        "file": "sendmessage.js",
+                        "data": {
+                          "name": "Send Message",
+                          "messageContent": "${tempVars('user-selected')} has been muted. `( ${tempVars('generate-case_id')} )`\n**Reason:** ` ${tempVars('reason-muted') || \"No reason provided\"} `\n\n**Duration:** <t:${Math.floor(new Date().setSeconds(new Date().getSeconds() + 1800) / 1000)}:R>",
+                          "actionRows": [],
+                          "embeds": [],
+                          "channel": {
+                            "type": "command",
+                            "value": ""
+                          },
+                          "storeAs": {
+                            "value": "",
+                            "type": "none"
+                          },
+                          "replyToInteraction": true,
+                          "options": [
+                            {
+                              "type": "options"
+                            }
+                          ],
+                          "attachments": [],
+                          "poll": [],
+                          "mentions": false,
+                          "dontSend": false,
+                          "ephemeral": true,
+                          "updateMessage": {
+                            "type": "interactionReply",
+                            "value": ""
+                          },
+                          "updateContent": false,
+                          "updateComponents": false,
+                          "updateEmbeds": false,
+                          "updateAttachments": false
+                        },
+                        "id": 1731625906669
+                      },
+                      {
+                        "name": "Send Message",
+                        "file": "sendmessage.js",
+                        "data": {
+                          "name": "Send Message",
+                          "messageContent": "",
+                          "actionRows": [],
+                          "embeds": [
+                            {
+                              "type": "embed",
+                              "data": {
+                                "title": "",
+                                "embedColor": "#313338",
+                                "footerContent": "",
+                                "imageURL": "",
+                                "footerIconURL": "",
+                                "thumbnailURL": "",
+                                "authorName": "Timeout",
+                                "authorIcon": "${bridge.variables['user-selected'].avatarURL()}",
+                                "description": "You have been timed out in **${guild.name}**. (Expires: <t:${Math.floor(new Date().setSeconds(new Date().getSeconds() + 1800) / 1000)}:R>)\nReason: ${tempVars('reason-muted') || \"No reason provided\"}",
+                                "fields": [],
+                                "url": "",
+                                "timestamp": "None",
+                                "customTimestamp": ""
+                              }
+                            }
+                          ],
+                          "channel": {
+                            "type": "tempVar",
+                            "value": "user-selected"
+                          },
+                          "storeAs": {
+                            "value": "",
+                            "type": "none"
+                          },
+                          "replyToInteraction": false,
+                          "options": [
+                            {
+                              "type": "options"
+                            }
+                          ],
+                          "attachments": [],
+                          "poll": [],
+                          "mentions": false,
+                          "dontSend": false,
+                          "ephemeral": false,
+                          "updateMessage": {
+                            "type": "none",
+                            "value": ""
+                          },
+                          "updateContent": false,
+                          "updateComponents": false,
+                          "updateEmbeds": false,
+                          "updateAttachments": false
+                        },
+                        "id": 1731625320936
+                      }
+                    ],
                     "label": "30 Minutes",
                     "description": "",
                     "pushAs": "",
@@ -326,7 +863,167 @@
                 {
                   "type": "selectMenu",
                   "data": {
-                    "actions": [],
+                    "actions": [
+                      {
+                        "name": "Timeout Member",
+                        "file": "timeoutMember.js",
+                        "data": {
+                          "name": "Timeout Member",
+                          "member": {
+                            "type": "tempVar",
+                            "value": "user-selected"
+                          },
+                          "unitsOfTime": "Hour(s)",
+                          "timeoutDuration": "1",
+                          "reason": "${tempVars('reason-muted') || \"No reason provided\"} | ${command.author.name}"
+                        },
+                        "id": 1731625906670
+                      },
+                      {
+                        "name": "Randomize Letters",
+                        "file": "randomizeLetters_MOD.js",
+                        "data": {
+                          "name": "Randomize Letters",
+                          "length": "5",
+                          "lowercase": {
+                            "type": "true",
+                            "value": ""
+                          },
+                          "uppercase": {
+                            "type": "true",
+                            "value": ""
+                          },
+                          "numeric": {
+                            "type": "true",
+                            "value": ""
+                          },
+                          "special": {
+                            "type": "false",
+                            "value": ""
+                          },
+                          "custom": {
+                            "type": "false",
+                            "value": ""
+                          },
+                          "letters": {
+                            "type": "temporary",
+                            "value": "generate-case_id"
+                          }
+                        },
+                        "id": 1731625906671
+                      },
+                      {
+                        "name": "SQLite Query",
+                        "file": "sqliteQuery_MOD.js",
+                        "data": {
+                          "name": "SQLite Query",
+                          "database": "moderation.sqlite",
+                          "query": "INSERT INTO timeout (user_id, reason, case_id, staff_id)\nVALUES ('${bridge.variables['user-selected'].id}', '${tempVars('reason-muted')}', '${tempVars('generate-case_id')}', '${command.author.id}');",
+                          "toggle": true,
+                          "logToConsole": false,
+                          "store": {
+                            "type": "temporary",
+                            "value": ""
+                          }
+                        },
+                        "id": 1731625906672
+                      },
+                      {
+                        "name": "Send Message",
+                        "file": "sendmessage.js",
+                        "data": {
+                          "name": "Send Message",
+                          "messageContent": "${tempVars('user-selected')} has been muted. `( ${tempVars('generate-case_id')} )`\n**Reason:** ` ${tempVars('reason-muted') || \"No reason provided\"} `\n\n**Duration:** <t:${Math.floor(new Date().setHours(new Date().getHours() + 1) / 1000)}:R>",
+                          "actionRows": [],
+                          "embeds": [],
+                          "channel": {
+                            "type": "command",
+                            "value": ""
+                          },
+                          "storeAs": {
+                            "value": "",
+                            "type": "none"
+                          },
+                          "replyToInteraction": true,
+                          "options": [
+                            {
+                              "type": "options"
+                            }
+                          ],
+                          "attachments": [],
+                          "poll": [],
+                          "mentions": false,
+                          "dontSend": false,
+                          "ephemeral": true,
+                          "updateMessage": {
+                            "type": "interactionReply",
+                            "value": ""
+                          },
+                          "updateContent": false,
+                          "updateComponents": false,
+                          "updateEmbeds": false,
+                          "updateAttachments": false
+                        },
+                        "id": 1731625906673
+                      },
+                      {
+                        "name": "Send Message",
+                        "file": "sendmessage.js",
+                        "data": {
+                          "name": "Send Message",
+                          "messageContent": "",
+                          "actionRows": [],
+                          "embeds": [
+                            {
+                              "type": "embed",
+                              "data": {
+                                "title": "",
+                                "embedColor": "#313338",
+                                "footerContent": "",
+                                "imageURL": "",
+                                "footerIconURL": "",
+                                "thumbnailURL": "",
+                                "authorName": "Timeout",
+                                "authorIcon": "${bridge.variables['user-selected'].avatarURL()}",
+                                "description": "You have been timed out in **${guild.name}**. (Expires: <t:${Math.floor(new Date().setHours(new Date().getHours() + 1) / 1000)}:R>)\nReason: ${tempVars('reason-muted') || \"No reason provided\"}",
+                                "fields": [],
+                                "url": "",
+                                "timestamp": "None",
+                                "customTimestamp": ""
+                              }
+                            }
+                          ],
+                          "channel": {
+                            "type": "tempVar",
+                            "value": "user-selected"
+                          },
+                          "storeAs": {
+                            "value": "",
+                            "type": "none"
+                          },
+                          "replyToInteraction": false,
+                          "options": [
+                            {
+                              "type": "options"
+                            }
+                          ],
+                          "attachments": [],
+                          "poll": [],
+                          "mentions": false,
+                          "dontSend": false,
+                          "ephemeral": false,
+                          "updateMessage": {
+                            "type": "none",
+                            "value": ""
+                          },
+                          "updateContent": false,
+                          "updateComponents": false,
+                          "updateEmbeds": false,
+                          "updateAttachments": false
+                        },
+                        "id": 1731625666719
+                      }
+                    ],
                     "label": "1 Hour",
                     "description": "",
                     "pushAs": "",
@@ -339,7 +1036,167 @@
                 {
                   "type": "selectMenu",
                   "data": {
-                    "actions": [],
+                    "actions": [
+                      {
+                        "name": "Timeout Member",
+                        "file": "timeoutMember.js",
+                        "data": {
+                          "name": "Timeout Member",
+                          "member": {
+                            "type": "tempVar",
+                            "value": "user-selected"
+                          },
+                          "unitsOfTime": "Hour(s)",
+                          "timeoutDuration": "4",
+                          "reason": "${tempVars('reason-muted') || \"No reason provided\"} | ${command.author.name}"
+                        },
+                        "id": 1731625906675
+                      },
+                      {
+                        "name": "Randomize Letters",
+                        "file": "randomizeLetters_MOD.js",
+                        "data": {
+                          "name": "Randomize Letters",
+                          "length": "5",
+                          "lowercase": {
+                            "type": "true",
+                            "value": ""
+                          },
+                          "uppercase": {
+                            "type": "true",
+                            "value": ""
+                          },
+                          "numeric": {
+                            "type": "true",
+                            "value": ""
+                          },
+                          "special": {
+                            "type": "false",
+                            "value": ""
+                          },
+                          "custom": {
+                            "type": "false",
+                            "value": ""
+                          },
+                          "letters": {
+                            "type": "temporary",
+                            "value": "generate-case_id"
+                          }
+                        },
+                        "id": 1731625906676
+                      },
+                      {
+                        "name": "SQLite Query",
+                        "file": "sqliteQuery_MOD.js",
+                        "data": {
+                          "name": "SQLite Query",
+                          "database": "moderation.sqlite",
+                          "query": "INSERT INTO timeout (user_id, reason, case_id, staff_id)\nVALUES ('${bridge.variables['user-selected'].id}', '${tempVars('reason-muted')}', '${tempVars('generate-case_id')}', '${command.author.id}');",
+                          "toggle": true,
+                          "logToConsole": false,
+                          "store": {
+                            "type": "temporary",
+                            "value": ""
+                          }
+                        },
+                        "id": 1731625906677
+                      },
+                      {
+                        "name": "Send Message",
+                        "file": "sendmessage.js",
+                        "data": {
+                          "name": "Send Message",
+                          "messageContent": "${tempVars('user-selected')} has been muted. `( ${tempVars('generate-case_id')} )`\n**Reason:** ` ${tempVars('reason-muted') || \"No reason provided\"} `\n\n**Duration:** <t:${Math.floor(new Date().setHours(new Date().getHours() + 4) / 1000)}:R>",
+                          "actionRows": [],
+                          "embeds": [],
+                          "channel": {
+                            "type": "command",
+                            "value": ""
+                          },
+                          "storeAs": {
+                            "value": "",
+                            "type": "none"
+                          },
+                          "replyToInteraction": true,
+                          "options": [
+                            {
+                              "type": "options"
+                            }
+                          ],
+                          "attachments": [],
+                          "poll": [],
+                          "mentions": false,
+                          "dontSend": false,
+                          "ephemeral": true,
+                          "updateMessage": {
+                            "type": "interactionReply",
+                            "value": ""
+                          },
+                          "updateContent": false,
+                          "updateComponents": false,
+                          "updateEmbeds": false,
+                          "updateAttachments": false
+                        },
+                        "id": 1731625906678
+                      },
+                      {
+                        "name": "Send Message",
+                        "file": "sendmessage.js",
+                        "data": {
+                          "name": "Send Message",
+                          "messageContent": "",
+                          "actionRows": [],
+                          "embeds": [
+                            {
+                              "type": "embed",
+                              "data": {
+                                "title": "",
+                                "embedColor": "#313338",
+                                "footerContent": "",
+                                "imageURL": "",
+                                "footerIconURL": "",
+                                "thumbnailURL": "",
+                                "authorName": "Timeout",
+                                "authorIcon": "${bridge.variables['user-selected'].avatarURL()}",
+                                "description": "You have been timed out in **${guild.name}**. (Expires: <t:${Math.floor(new Date().setHours(new Date().getHours() + 4) / 1000)}:R>)\nReason: ${tempVars('reason-muted') || \"No reason provided\"}",
+                                "fields": [],
+                                "url": "",
+                                "timestamp": "None",
+                                "customTimestamp": ""
+                              }
+                            }
+                          ],
+                          "channel": {
+                            "type": "tempVar",
+                            "value": "user-selected"
+                          },
+                          "storeAs": {
+                            "value": "",
+                            "type": "none"
+                          },
+                          "replyToInteraction": false,
+                          "options": [
+                            {
+                              "type": "options"
+                            }
+                          ],
+                          "attachments": [],
+                          "poll": [],
+                          "mentions": false,
+                          "dontSend": false,
+                          "ephemeral": false,
+                          "updateMessage": {
+                            "type": "none",
+                            "value": ""
+                          },
+                          "updateContent": false,
+                          "updateComponents": false,
+                          "updateEmbeds": false,
+                          "updateAttachments": false
+                        },
+                        "id": 1731625701575
+                      }
+                    ],
                     "label": "4 Hours",
                     "description": "",
                     "pushAs": "",
@@ -352,7 +1209,167 @@
                 {
                   "type": "selectMenu",
                   "data": {
-                    "actions": [],
+                    "actions": [
+                      {
+                        "name": "Timeout Member",
+                        "file": "timeoutMember.js",
+                        "data": {
+                          "name": "Timeout Member",
+                          "member": {
+                            "type": "tempVar",
+                            "value": "user-selected"
+                          },
+                          "unitsOfTime": "Hour(s)",
+                          "timeoutDuration": "8",
+                          "reason": "${tempVars('reason-muted') || \"No reason provided\"} | ${command.author.name}"
+                        },
+                        "id": 1731625906679
+                      },
+                      {
+                        "name": "Randomize Letters",
+                        "file": "randomizeLetters_MOD.js",
+                        "data": {
+                          "name": "Randomize Letters",
+                          "length": "5",
+                          "lowercase": {
+                            "type": "true",
+                            "value": ""
+                          },
+                          "uppercase": {
+                            "type": "true",
+                            "value": ""
+                          },
+                          "numeric": {
+                            "type": "true",
+                            "value": ""
+                          },
+                          "special": {
+                            "type": "false",
+                            "value": ""
+                          },
+                          "custom": {
+                            "type": "false",
+                            "value": ""
+                          },
+                          "letters": {
+                            "type": "temporary",
+                            "value": "generate-case_id"
+                          }
+                        },
+                        "id": 1731625906680
+                      },
+                      {
+                        "name": "SQLite Query",
+                        "file": "sqliteQuery_MOD.js",
+                        "data": {
+                          "name": "SQLite Query",
+                          "database": "moderation.sqlite",
+                          "query": "INSERT INTO timeout (user_id, reason, case_id, staff_id)\nVALUES ('${bridge.variables['user-selected'].id}', '${tempVars('reason-muted')}', '${tempVars('generate-case_id')}', '${command.author.id}');",
+                          "toggle": true,
+                          "logToConsole": false,
+                          "store": {
+                            "type": "temporary",
+                            "value": ""
+                          }
+                        },
+                        "id": 1731625906681
+                      },
+                      {
+                        "name": "Send Message",
+                        "file": "sendmessage.js",
+                        "data": {
+                          "name": "Send Message",
+                          "messageContent": "${tempVars('user-selected')} has been muted. `( ${tempVars('generate-case_id')} )`\n**Reason:** ` ${tempVars('reason-muted') || \"No reason provided\"} `\n\n**Duration:** <t:${Math.floor(new Date().setHours(new Date().getHours() + 8) / 1000)}:R>",
+                          "actionRows": [],
+                          "embeds": [],
+                          "channel": {
+                            "type": "command",
+                            "value": ""
+                          },
+                          "storeAs": {
+                            "value": "",
+                            "type": "none"
+                          },
+                          "replyToInteraction": true,
+                          "options": [
+                            {
+                              "type": "options"
+                            }
+                          ],
+                          "attachments": [],
+                          "poll": [],
+                          "mentions": false,
+                          "dontSend": false,
+                          "ephemeral": true,
+                          "updateMessage": {
+                            "type": "interactionReply",
+                            "value": ""
+                          },
+                          "updateContent": false,
+                          "updateComponents": false,
+                          "updateEmbeds": false,
+                          "updateAttachments": false
+                        },
+                        "id": 1731625906682
+                      },
+                      {
+                        "name": "Send Message",
+                        "file": "sendmessage.js",
+                        "data": {
+                          "name": "Send Message",
+                          "messageContent": "",
+                          "actionRows": [],
+                          "embeds": [
+                            {
+                              "type": "embed",
+                              "data": {
+                                "title": "",
+                                "embedColor": "#313338",
+                                "footerContent": "",
+                                "imageURL": "",
+                                "footerIconURL": "",
+                                "thumbnailURL": "",
+                                "authorName": "Timeout",
+                                "authorIcon": "${bridge.variables['user-selected'].avatarURL()}",
+                                "description": "You have been timed out in **${guild.name}**. (Expires: <t:${Math.floor(new Date().setHours(new Date().getHours() + 8) / 1000)}:R>)\nReason: ${tempVars('reason-muted') || \"No reason provided\"}",
+                                "fields": [],
+                                "url": "",
+                                "timestamp": "None",
+                                "customTimestamp": ""
+                              }
+                            }
+                          ],
+                          "channel": {
+                            "type": "tempVar",
+                            "value": "user-selected"
+                          },
+                          "storeAs": {
+                            "value": "",
+                            "type": "none"
+                          },
+                          "replyToInteraction": false,
+                          "options": [
+                            {
+                              "type": "options"
+                            }
+                          ],
+                          "attachments": [],
+                          "poll": [],
+                          "mentions": false,
+                          "dontSend": false,
+                          "ephemeral": false,
+                          "updateMessage": {
+                            "type": "none",
+                            "value": ""
+                          },
+                          "updateContent": false,
+                          "updateComponents": false,
+                          "updateEmbeds": false,
+                          "updateAttachments": false
+                        },
+                        "id": 1731625739463
+                      }
+                    ],
                     "label": "8 Hours",
                     "description": "",
                     "pushAs": "",
@@ -365,7 +1382,167 @@
                 {
                   "type": "selectMenu",
                   "data": {
-                    "actions": [],
+                    "actions": [
+                      {
+                        "name": "Timeout Member",
+                        "file": "timeoutMember.js",
+                        "data": {
+                          "name": "Timeout Member",
+                          "member": {
+                            "type": "tempVar",
+                            "value": "user-selected"
+                          },
+                          "unitsOfTime": "Hour(s)",
+                          "timeoutDuration": "10",
+                          "reason": "${tempVars('reason-muted') || \"No reason provided\"} | ${command.author.name}"
+                        },
+                        "id": 1731625906684
+                      },
+                      {
+                        "name": "Randomize Letters",
+                        "file": "randomizeLetters_MOD.js",
+                        "data": {
+                          "name": "Randomize Letters",
+                          "length": "5",
+                          "lowercase": {
+                            "type": "true",
+                            "value": ""
+                          },
+                          "uppercase": {
+                            "type": "true",
+                            "value": ""
+                          },
+                          "numeric": {
+                            "type": "true",
+                            "value": ""
+                          },
+                          "special": {
+                            "type": "false",
+                            "value": ""
+                          },
+                          "custom": {
+                            "type": "false",
+                            "value": ""
+                          },
+                          "letters": {
+                            "type": "temporary",
+                            "value": "generate-case_id"
+                          }
+                        },
+                        "id": 1731625906685
+                      },
+                      {
+                        "name": "SQLite Query",
+                        "file": "sqliteQuery_MOD.js",
+                        "data": {
+                          "name": "SQLite Query",
+                          "database": "moderation.sqlite",
+                          "query": "INSERT INTO timeout (user_id, reason, case_id, staff_id)\nVALUES ('${bridge.variables['user-selected'].id}', '${tempVars('reason-muted')}', '${tempVars('generate-case_id')}', '${command.author.id}');",
+                          "toggle": true,
+                          "logToConsole": false,
+                          "store": {
+                            "type": "temporary",
+                            "value": ""
+                          }
+                        },
+                        "id": 1731625906686
+                      },
+                      {
+                        "name": "Send Message",
+                        "file": "sendmessage.js",
+                        "data": {
+                          "name": "Send Message",
+                          "messageContent": "${tempVars('user-selected')} has been muted. `( ${tempVars('generate-case_id')} )`\n**Reason:** ` ${tempVars('reason-muted') || \"No reason provided\"} `\n\n**Duration:** <t:${Math.floor(new Date().setHours(new Date().getHours() + 10) / 1000)}:R>",
+                          "actionRows": [],
+                          "embeds": [],
+                          "channel": {
+                            "type": "command",
+                            "value": ""
+                          },
+                          "storeAs": {
+                            "value": "",
+                            "type": "none"
+                          },
+                          "replyToInteraction": true,
+                          "options": [
+                            {
+                              "type": "options"
+                            }
+                          ],
+                          "attachments": [],
+                          "poll": [],
+                          "mentions": false,
+                          "dontSend": false,
+                          "ephemeral": true,
+                          "updateMessage": {
+                            "type": "interactionReply",
+                            "value": ""
+                          },
+                          "updateContent": false,
+                          "updateComponents": false,
+                          "updateEmbeds": false,
+                          "updateAttachments": false
+                        },
+                        "id": 1731625906687
+                      },
+                      {
+                        "name": "Send Message",
+                        "file": "sendmessage.js",
+                        "data": {
+                          "name": "Send Message",
+                          "messageContent": "",
+                          "actionRows": [],
+                          "embeds": [
+                            {
+                              "type": "embed",
+                              "data": {
+                                "title": "",
+                                "embedColor": "#313338",
+                                "footerContent": "",
+                                "imageURL": "",
+                                "footerIconURL": "",
+                                "thumbnailURL": "",
+                                "authorName": "Timeout",
+                                "authorIcon": "${bridge.variables['user-selected'].avatarURL()}",
+                                "description": "You have been timed out in **${guild.name}**. (Expires: <t:${Math.floor(new Date().setHours(new Date().getHours() + 10) / 1000)}:R>)\nReason: ${tempVars('reason-muted') || \"No reason provided\"}",
+                                "fields": [],
+                                "url": "",
+                                "timestamp": "None",
+                                "customTimestamp": ""
+                              }
+                            }
+                          ],
+                          "channel": {
+                            "type": "tempVar",
+                            "value": "user-selected"
+                          },
+                          "storeAs": {
+                            "value": "",
+                            "type": "none"
+                          },
+                          "replyToInteraction": false,
+                          "options": [
+                            {
+                              "type": "options"
+                            }
+                          ],
+                          "attachments": [],
+                          "poll": [],
+                          "mentions": false,
+                          "dontSend": false,
+                          "ephemeral": false,
+                          "updateMessage": {
+                            "type": "none",
+                            "value": ""
+                          },
+                          "updateContent": false,
+                          "updateComponents": false,
+                          "updateEmbeds": false,
+                          "updateAttachments": false
+                        },
+                        "id": 1731625758768
+                      }
+                    ],
                     "label": "10 Hours",
                     "description": "",
                     "pushAs": "",
@@ -378,7 +1555,167 @@
                 {
                   "type": "selectMenu",
                   "data": {
-                    "actions": [],
+                    "actions": [
+                      {
+                        "name": "Timeout Member",
+                        "file": "timeoutMember.js",
+                        "data": {
+                          "name": "Timeout Member",
+                          "member": {
+                            "type": "tempVar",
+                            "value": "user-selected"
+                          },
+                          "unitsOfTime": "Day(s)",
+                          "timeoutDuration": "1",
+                          "reason": "${tempVars('reason-muted') || \"No reason provided\"} | ${command.author.name}"
+                        },
+                        "id": 1731625906688
+                      },
+                      {
+                        "name": "Randomize Letters",
+                        "file": "randomizeLetters_MOD.js",
+                        "data": {
+                          "name": "Randomize Letters",
+                          "length": "5",
+                          "lowercase": {
+                            "type": "true",
+                            "value": ""
+                          },
+                          "uppercase": {
+                            "type": "true",
+                            "value": ""
+                          },
+                          "numeric": {
+                            "type": "true",
+                            "value": ""
+                          },
+                          "special": {
+                            "type": "false",
+                            "value": ""
+                          },
+                          "custom": {
+                            "type": "false",
+                            "value": ""
+                          },
+                          "letters": {
+                            "type": "temporary",
+                            "value": "generate-case_id"
+                          }
+                        },
+                        "id": 1731625906689
+                      },
+                      {
+                        "name": "SQLite Query",
+                        "file": "sqliteQuery_MOD.js",
+                        "data": {
+                          "name": "SQLite Query",
+                          "database": "moderation.sqlite",
+                          "query": "INSERT INTO timeout (user_id, reason, case_id, staff_id)\nVALUES ('${bridge.variables['user-selected'].id}', '${tempVars('reason-muted')}', '${tempVars('generate-case_id')}', '${command.author.id}');",
+                          "toggle": true,
+                          "logToConsole": false,
+                          "store": {
+                            "type": "temporary",
+                            "value": ""
+                          }
+                        },
+                        "id": 1731625906690
+                      },
+                      {
+                        "name": "Send Message",
+                        "file": "sendmessage.js",
+                        "data": {
+                          "name": "Send Message",
+                          "messageContent": "${tempVars('user-selected')} has been muted. `( ${tempVars('generate-case_id')} )`\n**Reason:** ` ${tempVars('reason-muted') || \"No reason provided\"} `\n\n**Duration:** <t:${Math.floor(new Date().setHours(new Date().getHours() + 24) / 1000)}:R>",
+                          "actionRows": [],
+                          "embeds": [],
+                          "channel": {
+                            "type": "command",
+                            "value": ""
+                          },
+                          "storeAs": {
+                            "value": "",
+                            "type": "none"
+                          },
+                          "replyToInteraction": true,
+                          "options": [
+                            {
+                              "type": "options"
+                            }
+                          ],
+                          "attachments": [],
+                          "poll": [],
+                          "mentions": false,
+                          "dontSend": false,
+                          "ephemeral": true,
+                          "updateMessage": {
+                            "type": "interactionReply",
+                            "value": ""
+                          },
+                          "updateContent": false,
+                          "updateComponents": false,
+                          "updateEmbeds": false,
+                          "updateAttachments": false
+                        },
+                        "id": 1731625906691
+                      },
+                      {
+                        "name": "Send Message",
+                        "file": "sendmessage.js",
+                        "data": {
+                          "name": "Send Message",
+                          "messageContent": "",
+                          "actionRows": [],
+                          "embeds": [
+                            {
+                              "type": "embed",
+                              "data": {
+                                "title": "",
+                                "embedColor": "#313338",
+                                "footerContent": "",
+                                "imageURL": "",
+                                "footerIconURL": "",
+                                "thumbnailURL": "",
+                                "authorName": "Timeout",
+                                "authorIcon": "${bridge.variables['user-selected'].avatarURL()}",
+                                "description": "You have been timed out in **${guild.name}**. (Expires: <t:${Math.floor(new Date().setHours(new Date().getHours() + 24) / 1000)}:R>)\nReason: ${tempVars('reason-muted') || \"No reason provided\"}",
+                                "fields": [],
+                                "url": "",
+                                "timestamp": "None",
+                                "customTimestamp": ""
+                              }
+                            }
+                          ],
+                          "channel": {
+                            "type": "tempVar",
+                            "value": "user-selected"
+                          },
+                          "storeAs": {
+                            "value": "",
+                            "type": "none"
+                          },
+                          "replyToInteraction": false,
+                          "options": [
+                            {
+                              "type": "options"
+                            }
+                          ],
+                          "attachments": [],
+                          "poll": [],
+                          "mentions": false,
+                          "dontSend": false,
+                          "ephemeral": false,
+                          "updateMessage": {
+                            "type": "none",
+                            "value": ""
+                          },
+                          "updateContent": false,
+                          "updateComponents": false,
+                          "updateEmbeds": false,
+                          "updateAttachments": false
+                        },
+                        "id": 1731625818271
+                      }
+                    ],
                     "label": "1 Day",
                     "description": "",
                     "pushAs": "",
@@ -391,7 +1728,167 @@
                 {
                   "type": "selectMenu",
                   "data": {
-                    "actions": [],
+                    "actions": [
+                      {
+                        "name": "Timeout Member",
+                        "file": "timeoutMember.js",
+                        "data": {
+                          "name": "Timeout Member",
+                          "member": {
+                            "type": "tempVar",
+                            "value": "user-selected"
+                          },
+                          "unitsOfTime": "Day(s)",
+                          "timeoutDuration": "7",
+                          "reason": "${tempVars('reason-muted') || \"No reason provided\"} | ${command.author.name}"
+                        },
+                        "id": 1731625906693
+                      },
+                      {
+                        "name": "Randomize Letters",
+                        "file": "randomizeLetters_MOD.js",
+                        "data": {
+                          "name": "Randomize Letters",
+                          "length": "5",
+                          "lowercase": {
+                            "type": "true",
+                            "value": ""
+                          },
+                          "uppercase": {
+                            "type": "true",
+                            "value": ""
+                          },
+                          "numeric": {
+                            "type": "true",
+                            "value": ""
+                          },
+                          "special": {
+                            "type": "false",
+                            "value": ""
+                          },
+                          "custom": {
+                            "type": "false",
+                            "value": ""
+                          },
+                          "letters": {
+                            "type": "temporary",
+                            "value": "generate-case_id"
+                          }
+                        },
+                        "id": 1731625906694
+                      },
+                      {
+                        "name": "SQLite Query",
+                        "file": "sqliteQuery_MOD.js",
+                        "data": {
+                          "name": "SQLite Query",
+                          "database": "moderation.sqlite",
+                          "query": "INSERT INTO timeout (user_id, reason, case_id, staff_id)\nVALUES ('${bridge.variables['user-selected'].id}', '${tempVars('reason-muted')}', '${tempVars('generate-case_id')}', '${command.author.id}');",
+                          "toggle": true,
+                          "logToConsole": false,
+                          "store": {
+                            "type": "temporary",
+                            "value": ""
+                          }
+                        },
+                        "id": 1731625906695
+                      },
+                      {
+                        "name": "Send Message",
+                        "file": "sendmessage.js",
+                        "data": {
+                          "name": "Send Message",
+                          "messageContent": "${tempVars('user-selected')} has been muted. `( ${tempVars('generate-case_id')} )`\n**Reason:** ` ${tempVars('reason-muted') || \"No reason provided\"} `\n\n**Duration:** <t:${Math.floor(new Date().setHours(new Date().getHours() + 168) / 1000)}:R>",
+                          "actionRows": [],
+                          "embeds": [],
+                          "channel": {
+                            "type": "command",
+                            "value": ""
+                          },
+                          "storeAs": {
+                            "value": "",
+                            "type": "none"
+                          },
+                          "replyToInteraction": true,
+                          "options": [
+                            {
+                              "type": "options"
+                            }
+                          ],
+                          "attachments": [],
+                          "poll": [],
+                          "mentions": false,
+                          "dontSend": false,
+                          "ephemeral": true,
+                          "updateMessage": {
+                            "type": "interactionReply",
+                            "value": ""
+                          },
+                          "updateContent": false,
+                          "updateComponents": false,
+                          "updateEmbeds": false,
+                          "updateAttachments": false
+                        },
+                        "id": 1731625906696
+                      },
+                      {
+                        "name": "Send Message",
+                        "file": "sendmessage.js",
+                        "data": {
+                          "name": "Send Message",
+                          "messageContent": "",
+                          "actionRows": [],
+                          "embeds": [
+                            {
+                              "type": "embed",
+                              "data": {
+                                "title": "",
+                                "embedColor": "#313338",
+                                "footerContent": "",
+                                "imageURL": "",
+                                "footerIconURL": "",
+                                "thumbnailURL": "",
+                                "authorName": "Timeout",
+                                "authorIcon": "${bridge.variables['user-selected'].avatarURL()}",
+                                "description": "You have been timed out in **${guild.name}**. (Expires: <t:${Math.floor(new Date().setHours(new Date().getHours() + 168) / 1000)}:R>)\nReason: ${tempVars('reason-muted') || \"No reason provided\"}",
+                                "fields": [],
+                                "url": "",
+                                "timestamp": "None",
+                                "customTimestamp": ""
+                              }
+                            }
+                          ],
+                          "channel": {
+                            "type": "tempVar",
+                            "value": "user-selected"
+                          },
+                          "storeAs": {
+                            "value": "",
+                            "type": "none"
+                          },
+                          "replyToInteraction": false,
+                          "options": [
+                            {
+                              "type": "options"
+                            }
+                          ],
+                          "attachments": [],
+                          "poll": [],
+                          "mentions": false,
+                          "dontSend": false,
+                          "ephemeral": false,
+                          "updateMessage": {
+                            "type": "none",
+                            "value": ""
+                          },
+                          "updateContent": false,
+                          "updateComponents": false,
+                          "updateEmbeds": false,
+                          "updateAttachments": false
+                        },
+                        "id": 1731625848215
+                      }
+                    ],
                     "label": "1 Week",
                     "description": "",
                     "pushAs": "",
@@ -404,7 +1901,167 @@
                 {
                   "type": "selectMenu",
                   "data": {
-                    "actions": [],
+                    "actions": [
+                      {
+                        "name": "Timeout Member",
+                        "file": "timeoutMember.js",
+                        "data": {
+                          "name": "Timeout Member",
+                          "member": {
+                            "type": "tempVar",
+                            "value": "user-selected"
+                          },
+                          "unitsOfTime": "Day(s)",
+                          "timeoutDuration": "14",
+                          "reason": "${tempVars('reason-muted') || \"No reason provided\"} | ${command.author.name}"
+                        },
+                        "id": 1731625906697
+                      },
+                      {
+                        "name": "Randomize Letters",
+                        "file": "randomizeLetters_MOD.js",
+                        "data": {
+                          "name": "Randomize Letters",
+                          "length": "5",
+                          "lowercase": {
+                            "type": "true",
+                            "value": ""
+                          },
+                          "uppercase": {
+                            "type": "true",
+                            "value": ""
+                          },
+                          "numeric": {
+                            "type": "true",
+                            "value": ""
+                          },
+                          "special": {
+                            "type": "false",
+                            "value": ""
+                          },
+                          "custom": {
+                            "type": "false",
+                            "value": ""
+                          },
+                          "letters": {
+                            "type": "temporary",
+                            "value": "generate-case_id"
+                          }
+                        },
+                        "id": 1731625906698
+                      },
+                      {
+                        "name": "SQLite Query",
+                        "file": "sqliteQuery_MOD.js",
+                        "data": {
+                          "name": "SQLite Query",
+                          "database": "moderation.sqlite",
+                          "query": "INSERT INTO timeout (user_id, reason, case_id, staff_id)\nVALUES ('${bridge.variables['user-selected'].id}', '${tempVars('reason-muted')}', '${tempVars('generate-case_id')}', '${command.author.id}');",
+                          "toggle": true,
+                          "logToConsole": false,
+                          "store": {
+                            "type": "temporary",
+                            "value": ""
+                          }
+                        },
+                        "id": 1731625906699
+                      },
+                      {
+                        "name": "Send Message",
+                        "file": "sendmessage.js",
+                        "data": {
+                          "name": "Send Message",
+                          "messageContent": "${tempVars('user-selected')} has been muted. `( ${tempVars('generate-case_id')} )`\n**Reason:** ` ${tempVars('reason-muted') || \"No reason provided\"} `\n\n**Duration:** <t:${Math.floor(new Date().setHours(new Date().getHours() + 336) / 1000)}:R>",
+                          "actionRows": [],
+                          "embeds": [],
+                          "channel": {
+                            "type": "command",
+                            "value": ""
+                          },
+                          "storeAs": {
+                            "value": "",
+                            "type": "none"
+                          },
+                          "replyToInteraction": true,
+                          "options": [
+                            {
+                              "type": "options"
+                            }
+                          ],
+                          "attachments": [],
+                          "poll": [],
+                          "mentions": false,
+                          "dontSend": false,
+                          "ephemeral": true,
+                          "updateMessage": {
+                            "type": "interactionReply",
+                            "value": ""
+                          },
+                          "updateContent": false,
+                          "updateComponents": false,
+                          "updateEmbeds": false,
+                          "updateAttachments": false
+                        },
+                        "id": 1731625906700
+                      },
+                      {
+                        "name": "Send Message",
+                        "file": "sendmessage.js",
+                        "data": {
+                          "name": "Send Message",
+                          "messageContent": "",
+                          "actionRows": [],
+                          "embeds": [
+                            {
+                              "type": "embed",
+                              "data": {
+                                "title": "",
+                                "embedColor": "#313338",
+                                "footerContent": "",
+                                "imageURL": "",
+                                "footerIconURL": "",
+                                "thumbnailURL": "",
+                                "authorName": "Timeout",
+                                "authorIcon": "${bridge.variables['user-selected'].avatarURL()}",
+                                "description": "You have been timed out in **${guild.name}**. (Expires: <t:${Math.floor(new Date().setHours(new Date().getHours() + 336) / 1000)}:R>)\nReason: ${tempVars('reason-muted') || \"No reason provided\"}",
+                                "fields": [],
+                                "url": "",
+                                "timestamp": "None",
+                                "customTimestamp": ""
+                              }
+                            }
+                          ],
+                          "channel": {
+                            "type": "tempVar",
+                            "value": "user-selected"
+                          },
+                          "storeAs": {
+                            "value": "",
+                            "type": "none"
+                          },
+                          "replyToInteraction": false,
+                          "options": [
+                            {
+                              "type": "options"
+                            }
+                          ],
+                          "attachments": [],
+                          "poll": [],
+                          "mentions": false,
+                          "dontSend": false,
+                          "ephemeral": false,
+                          "updateMessage": {
+                            "type": "none",
+                            "value": ""
+                          },
+                          "updateContent": false,
+                          "updateComponents": false,
+                          "updateEmbeds": false,
+                          "updateAttachments": false
+                        },
+                        "id": 1731625869790
+                      }
+                    ],
                     "label": "2 Weeks",
                     "description": "",
                     "pushAs": "",
@@ -417,7 +2074,167 @@
                 {
                   "type": "selectMenu",
                   "data": {
-                    "actions": [],
+                    "actions": [
+                      {
+                        "name": "Timeout Member",
+                        "file": "timeoutMember.js",
+                        "data": {
+                          "name": "Timeout Member",
+                          "member": {
+                            "type": "tempVar",
+                            "value": "user-selected"
+                          },
+                          "unitsOfTime": "Day(s)",
+                          "timeoutDuration": "28",
+                          "reason": "${tempVars('reason-muted') || \"No reason provided\"} | ${command.author.name}"
+                        },
+                        "id": 1731625906701
+                      },
+                      {
+                        "name": "Randomize Letters",
+                        "file": "randomizeLetters_MOD.js",
+                        "data": {
+                          "name": "Randomize Letters",
+                          "length": "5",
+                          "lowercase": {
+                            "type": "true",
+                            "value": ""
+                          },
+                          "uppercase": {
+                            "type": "true",
+                            "value": ""
+                          },
+                          "numeric": {
+                            "type": "true",
+                            "value": ""
+                          },
+                          "special": {
+                            "type": "false",
+                            "value": ""
+                          },
+                          "custom": {
+                            "type": "false",
+                            "value": ""
+                          },
+                          "letters": {
+                            "type": "temporary",
+                            "value": "generate-case_id"
+                          }
+                        },
+                        "id": 1731625906702
+                      },
+                      {
+                        "name": "SQLite Query",
+                        "file": "sqliteQuery_MOD.js",
+                        "data": {
+                          "name": "SQLite Query",
+                          "database": "moderation.sqlite",
+                          "query": "INSERT INTO timeout (user_id, reason, case_id, staff_id)\nVALUES ('${bridge.variables['user-selected'].id}', '${tempVars('reason-muted')}', '${tempVars('generate-case_id')}', '${command.author.id}');",
+                          "toggle": true,
+                          "logToConsole": false,
+                          "store": {
+                            "type": "temporary",
+                            "value": ""
+                          }
+                        },
+                        "id": 1731625906703
+                      },
+                      {
+                        "name": "Send Message",
+                        "file": "sendmessage.js",
+                        "data": {
+                          "name": "Send Message",
+                          "messageContent": "${tempVars('user-selected')} has been muted. `( ${tempVars('generate-case_id')} )`\n**Reason:** ` ${tempVars('reason-muted') || \"No reason provided\"} `\n\n**Duration:** <t:${Math.floor(new Date().setHours(new Date().getHours() + 672) / 1000)}:R>",
+                          "actionRows": [],
+                          "embeds": [],
+                          "channel": {
+                            "type": "command",
+                            "value": ""
+                          },
+                          "storeAs": {
+                            "value": "",
+                            "type": "none"
+                          },
+                          "replyToInteraction": true,
+                          "options": [
+                            {
+                              "type": "options"
+                            }
+                          ],
+                          "attachments": [],
+                          "poll": [],
+                          "mentions": false,
+                          "dontSend": false,
+                          "ephemeral": true,
+                          "updateMessage": {
+                            "type": "interactionReply",
+                            "value": ""
+                          },
+                          "updateContent": false,
+                          "updateComponents": false,
+                          "updateEmbeds": false,
+                          "updateAttachments": false
+                        },
+                        "id": 1731625906704
+                      },
+                      {
+                        "name": "Send Message",
+                        "file": "sendmessage.js",
+                        "data": {
+                          "name": "Send Message",
+                          "messageContent": "",
+                          "actionRows": [],
+                          "embeds": [
+                            {
+                              "type": "embed",
+                              "data": {
+                                "title": "",
+                                "embedColor": "#313338",
+                                "footerContent": "",
+                                "imageURL": "",
+                                "footerIconURL": "",
+                                "thumbnailURL": "",
+                                "authorName": "Timeout",
+                                "authorIcon": "${bridge.variables['user-selected'].avatarURL()}",
+                                "description": "You have been timed out in **${guild.name}**. (Expires: <t:${Math.floor(new Date().setHours(new Date().getHours() + 672) / 1000)}:R>)\nReason: ${tempVars('reason-muted') || \"No reason provided\"}",
+                                "fields": [],
+                                "url": "",
+                                "timestamp": "None",
+                                "customTimestamp": ""
+                              }
+                            }
+                          ],
+                          "channel": {
+                            "type": "tempVar",
+                            "value": "user-selected"
+                          },
+                          "storeAs": {
+                            "value": "",
+                            "type": "none"
+                          },
+                          "replyToInteraction": false,
+                          "options": [
+                            {
+                              "type": "options"
+                            }
+                          ],
+                          "attachments": [],
+                          "poll": [],
+                          "mentions": false,
+                          "dontSend": false,
+                          "ephemeral": false,
+                          "updateMessage": {
+                            "type": "none",
+                            "value": ""
+                          },
+                          "updateContent": false,
+                          "updateComponents": false,
+                          "updateEmbeds": false,
+                          "updateAttachments": false
+                        },
+                        "id": 1731625888807
+                      }
+                    ],
                     "label": "4 Weeks",
                     "description": "",
                     "pushAs": "",
@@ -526,7 +2343,9 @@
     }
   ],
   "description": "Temporarily mutes a user",
-  "folder": [],
+  "folder": [
+    1731624561371
+  ],
   "goodies": {
     "actionType": "slash",
     "variables": {
