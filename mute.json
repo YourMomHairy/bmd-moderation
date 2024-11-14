@@ -1,0 +1,598 @@
+    {
+  "name": "mute",
+  "type": "action",
+  "trigger": "slashCommand",
+  "actions": [
+    {
+      "name": "Get Member Info",
+      "file": "getMemberInfo.js",
+      "data": {
+        "name": "Get Member Info",
+        "member": {
+          "type": "author",
+          "value": ""
+        },
+        "get": {
+          "type": "highestRole",
+          "value": ""
+        },
+        "store": {
+          "type": "temporary",
+          "value": "executor_highest-role"
+        }
+      },
+      "id": 1731368909850
+    },
+    {
+      "name": "Get Role Info",
+      "file": "getRoleInfo.js",
+      "data": {
+        "name": "Get Role Info",
+        "role": {
+          "type": "tempVar",
+          "value": "executor_highest-role"
+        },
+        "get": {
+          "type": "position",
+          "value": ""
+        },
+        "store": {
+          "type": "temporary",
+          "value": "executor_highest-role_position"
+        }
+      },
+      "id": 1731369073745
+    },
+    {
+      "name": "Get Member Info",
+      "file": "getMemberInfo.js",
+      "data": {
+        "name": "Get Member Info",
+        "member": {
+          "type": "tempVar",
+          "value": "user-selected"
+        },
+        "get": {
+          "type": "highestRole",
+          "value": ""
+        },
+        "store": {
+          "type": "temporary",
+          "value": "target_highest-role"
+        }
+      },
+      "id": 1731369160617
+    },
+    {
+      "name": "Get Role Info",
+      "file": "getRoleInfo.js",
+      "data": {
+        "name": "Get Role Info",
+        "role": {
+          "type": "tempVar",
+          "value": "target_highest-role"
+        },
+        "get": {
+          "type": "position",
+          "value": ""
+        },
+        "store": {
+          "type": "temporary",
+          "value": "target_highest-role_position"
+        }
+      },
+      "id": 1731369098468
+    },
+    {
+      "name": "Check Variable",
+      "file": "checkVariable.js",
+      "data": {
+        "name": "Check Variable",
+        "variable": {
+          "type": "tempVar",
+          "value": "executor_highest-role_position"
+        },
+        "comparator": "Greater Than",
+        "compareValue": "${tempVars('target_highest-role_position')}",
+        "true": {
+          "type": "jump",
+          "value": "8"
+        },
+        "trueActions": [],
+        "false": {
+          "type": "continue",
+          "value": ""
+        },
+        "falseActions": []
+      },
+      "id": 1731369211125
+    },
+    {
+      "name": "Send Message",
+      "file": "sendmessage.js",
+      "data": {
+        "name": "Send Message",
+        "messageContent": "`❌`┃You cannot timeout ${tempVars('user-selected')} as the role is higher than you.",
+        "actionRows": [],
+        "embeds": [],
+        "channel": {
+          "type": "command",
+          "value": ""
+        },
+        "replyToInteraction": true,
+        "storeAs": {
+          "value": "",
+          "type": "none"
+        },
+        "options": [
+          {
+            "type": "options"
+          }
+        ],
+        "attachments": [],
+        "poll": [],
+        "mentions": false,
+        "dontSend": false,
+        "ephemeral": true,
+        "updateMessage": {
+          "type": "none",
+          "value": ""
+        },
+        "updateContent": false,
+        "updateComponents": false,
+        "updateEmbeds": false,
+        "updateAttachments": false
+      },
+      "id": 1731373218049
+    },
+    {
+      "name": "Stop Actions",
+      "file": "stopRunningActions.js",
+      "data": {
+        "name": "Stop Actions"
+      },
+      "id": 1731373312025
+    },
+    {
+      "name": "Send Message",
+      "file": "sendmessage.js",
+      "data": {
+        "name": "Send Message",
+        "messageContent": "",
+        "actionRows": [
+          {
+            "type": "selectMenu",
+            "data": {
+              "type": {
+                "type": "temporary",
+                "value": "600"
+              },
+              "options": [
+                {
+                  "type": "selectMenu",
+                  "data": {
+                    "actions": [
+                      {
+                        "name": "Timeout Member",
+                        "file": "timeoutMember.js",
+                        "data": {
+                          "name": "Timeout Member",
+                          "member": {
+                            "type": "tempVar",
+                            "value": "user-selected"
+                          },
+                          "unitsOfTime": "Minute(s)",
+                          "timeoutDuration": "5",
+                          "reason": "${tempVars('reason-muted') || \"No reason provided\"} | ${command.author.name}"
+                        },
+                        "id": 1731607253920
+                      },
+                      {
+                        "name": "Randomize Letters",
+                        "file": "randomizeLetters_MOD.js",
+                        "data": {
+                          "name": "Randomize Letters",
+                          "length": "5",
+                          "lowercase": {
+                            "type": "true",
+                            "value": ""
+                          },
+                          "uppercase": {
+                            "type": "true",
+                            "value": ""
+                          },
+                          "numeric": {
+                            "type": "true",
+                            "value": ""
+                          },
+                          "special": {
+                            "type": "false",
+                            "value": ""
+                          },
+                          "custom": {
+                            "type": "false",
+                            "value": ""
+                          },
+                          "letters": {
+                            "type": "temporary",
+                            "value": "generate-case_id"
+                          }
+                        },
+                        "id": 1731607253921
+                      },
+                      {
+                        "name": "SQLite Query",
+                        "file": "sqliteQuery_MOD.js",
+                        "data": {
+                          "name": "SQLite Query",
+                          "database": "moderation.sqlite",
+                          "query": "INSERT INTO timeout (user_id, reason, case_id, staff_id)\nVALUES ('${bridge.variables['user-selected'].id}', '${tempVars('reason-muted')}', '${tempVars('generate-case_id')}', '${command.author.id}');",
+                          "toggle": true,
+                          "logToConsole": true,
+                          "store": {
+                            "type": "temporary",
+                            "value": ""
+                          }
+                        },
+                        "id": 1731607253922
+                      },
+                      {
+                        "name": "Send Message",
+                        "file": "sendmessage.js",
+                        "data": {
+                          "name": "Send Message",
+                          "messageContent": "${tempVars('user-selected')} has been muted. `( ${tempVars('generate-case_id')} )`\n**Reason:** ` ${tempVars('reason-muted') || \"No reason provided\"} `\n\n**Duration:** <t:${Math.floor(new Date().setSeconds(new Date().getSeconds() + 300) / 1000)}:R>",
+                          "actionRows": [],
+                          "embeds": [],
+                          "channel": {
+                            "type": "command",
+                            "value": ""
+                          },
+                          "storeAs": {
+                            "value": "",
+                            "type": "none"
+                          },
+                          "replyToInteraction": true,
+                          "options": [
+                            {
+                              "type": "options"
+                            }
+                          ],
+                          "attachments": [],
+                          "poll": [],
+                          "mentions": false,
+                          "dontSend": false,
+                          "ephemeral": true,
+                          "updateMessage": {
+                            "type": "interactionReply",
+                            "value": ""
+                          },
+                          "updateContent": false,
+                          "updateComponents": false,
+                          "updateEmbeds": false,
+                          "updateAttachments": false
+                        },
+                        "id": 1731607253923
+                      }
+                    ],
+                    "label": "5 Minutes",
+                    "description": "",
+                    "pushAs": "",
+                    "emojiName": "⏲",
+                    "emojiID": "",
+                    "isEmojiAnimated": false,
+                    "default": false
+                  }
+                },
+                {
+                  "type": "selectMenu",
+                  "data": {
+                    "actions": [],
+                    "label": "10 Minutes",
+                    "description": "",
+                    "pushAs": "",
+                    "emojiName": "⏲",
+                    "emojiID": "",
+                    "isEmojiAnimated": false,
+                    "default": false
+                  }
+                },
+                {
+                  "type": "selectMenu",
+                  "data": {
+                    "actions": [],
+                    "label": "25 Minutes",
+                    "description": "",
+                    "pushAs": "",
+                    "emojiName": "⏲",
+                    "emojiID": "",
+                    "isEmojiAnimated": false,
+                    "default": false
+                  }
+                },
+                {
+                  "type": "selectMenu",
+                  "data": {
+                    "actions": [],
+                    "label": "30 Minutes",
+                    "description": "",
+                    "pushAs": "",
+                    "emojiName": "⏲",
+                    "emojiID": "",
+                    "isEmojiAnimated": false,
+                    "default": false
+                  }
+                },
+                {
+                  "type": "selectMenu",
+                  "data": {
+                    "actions": [],
+                    "label": "1 Hour",
+                    "description": "",
+                    "pushAs": "",
+                    "emojiName": "⏲",
+                    "emojiID": "",
+                    "isEmojiAnimated": false,
+                    "default": false
+                  }
+                },
+                {
+                  "type": "selectMenu",
+                  "data": {
+                    "actions": [],
+                    "label": "4 Hours",
+                    "description": "",
+                    "pushAs": "",
+                    "emojiName": "⏲",
+                    "emojiID": "",
+                    "isEmojiAnimated": false,
+                    "default": false
+                  }
+                },
+                {
+                  "type": "selectMenu",
+                  "data": {
+                    "actions": [],
+                    "label": "8 Hours",
+                    "description": "",
+                    "pushAs": "",
+                    "emojiName": "⏲",
+                    "emojiID": "",
+                    "isEmojiAnimated": false,
+                    "default": false
+                  }
+                },
+                {
+                  "type": "selectMenu",
+                  "data": {
+                    "actions": [],
+                    "label": "10 Hours",
+                    "description": "",
+                    "pushAs": "",
+                    "emojiName": "⏲",
+                    "emojiID": "",
+                    "isEmojiAnimated": false,
+                    "default": false
+                  }
+                },
+                {
+                  "type": "selectMenu",
+                  "data": {
+                    "actions": [],
+                    "label": "1 Day",
+                    "description": "",
+                    "pushAs": "",
+                    "emojiName": "⏲",
+                    "emojiID": "",
+                    "isEmojiAnimated": false,
+                    "default": false
+                  }
+                },
+                {
+                  "type": "selectMenu",
+                  "data": {
+                    "actions": [],
+                    "label": "1 Week",
+                    "description": "",
+                    "pushAs": "",
+                    "emojiName": "⏲",
+                    "emojiID": "",
+                    "isEmojiAnimated": false,
+                    "default": false
+                  }
+                },
+                {
+                  "type": "selectMenu",
+                  "data": {
+                    "actions": [],
+                    "label": "2 Weeks",
+                    "description": "",
+                    "pushAs": "",
+                    "emojiName": "⏲",
+                    "emojiID": "",
+                    "isEmojiAnimated": false,
+                    "default": false
+                  }
+                },
+                {
+                  "type": "selectMenu",
+                  "data": {
+                    "actions": [],
+                    "label": "4 Weeks",
+                    "description": "",
+                    "pushAs": "",
+                    "emojiName": "⏲",
+                    "emojiID": "",
+                    "isEmojiAnimated": false,
+                    "default": false
+                  }
+                }
+              ],
+              "maxSelectable": "1",
+              "minSelectable": "1",
+              "storeInteractionAs": {
+                "type": "temporary",
+                "value": ""
+              },
+              "placeholder": "${bridge.variables['user-selected'].username} muted for...",
+              "disabled": false,
+              "storeOptionsListAs": {
+                "type": "temporary",
+                "value": "menu-selected"
+              },
+              "onSubmit": [],
+              "customID": "Auto Generated",
+              "id": "",
+              "storeInteractionAuthorAs": {
+                "type": "temporary",
+                "value": ""
+              }
+            }
+          }
+        ],
+        "embeds": [],
+        "channel": {
+          "type": "command",
+          "value": ""
+        },
+        "replyToInteraction": true,
+        "storeAs": {
+          "value": "",
+          "type": "none"
+        },
+        "options": [
+          {
+            "type": "options"
+          }
+        ],
+        "attachments": [],
+        "poll": [],
+        "mentions": false,
+        "dontSend": false,
+        "ephemeral": true,
+        "updateMessage": {
+          "type": "none",
+          "value": ""
+        },
+        "updateContent": false,
+        "updateComponents": false,
+        "updateEmbeds": false,
+        "updateAttachments": false
+      },
+      "id": 1731262800153
+    }
+  ],
+  "customId": 1731262322897,
+  "boundary": {
+    "worksIn": "guild",
+    "limits": [
+      "MODERATE_MEMBERS"
+    ]
+  },
+  "parameters": [
+    {
+      "name": "user",
+      "type": "user",
+      "description": "Which user would you like to mute?",
+      "required": true,
+      "choices": [],
+      "storeAs": "user-selected",
+      "completion": false
+    },
+    {
+      "name": "reason",
+      "type": "string",
+      "description": "What is your reason to mute this user?",
+      "required": true,
+      "choices": [],
+      "storeAs": "reason-muted",
+      "completion": false,
+      "bound": {
+        "name": "Autocompletion",
+        "storeInputAs": {
+          "type": "temporary",
+          "value": ""
+        },
+        "storeInteractionAs": {
+          "type": "temporary",
+          "value": ""
+        },
+        "actions": [],
+        "result": {
+          "type": "tempVar",
+          "value": ""
+        }
+      }
+    }
+  ],
+  "description": "Temporarily mutes a user",
+  "folder": [],
+  "goodies": {
+    "actionType": "slash",
+    "variables": {
+      "temporary": [
+        "",
+        "",
+        "menu-selected",
+        "generate-case_id",
+        ""
+      ],
+      "global": [],
+      "server": [],
+      "commandVars": [
+        "user-selected",
+        "reason-muted",
+        "executor_highest-role",
+        "executor_highest-role_position",
+        "target_highest-role",
+        "target_highest-role_position"
+      ],
+      "thisServer": [],
+      "thisGlobal": []
+    }
+  },
+  "rejectionScenario": {
+    "name": "Rejection Scenario",
+    "notWithin": [],
+    "missingPermissions": [
+      {
+        "name": "Send Message",
+        "file": "sendmessage.js",
+        "data": {
+          "name": "Send Message",
+          "messageContent": "`❌`┃You lack the necessary permission **`` Timeout Members ``**.",
+          "actionRows": [],
+          "embeds": [],
+          "channel": {
+            "type": "command",
+            "value": ""
+          },
+          "storeAs": {
+            "value": "",
+            "type": "none"
+          },
+          "replyToInteraction": true,
+          "options": [
+            {
+              "type": "options"
+            }
+          ],
+          "attachments": [],
+          "poll": [],
+          "mentions": false,
+          "dontSend": false,
+          "ephemeral": true,
+          "updateMessage": {
+            "type": "none",
+            "value": ""
+          },
+          "updateContent": false,
+          "updateComponents": false,
+          "updateEmbeds": false,
+          "updateAttachments": false
+        },
+        "id": 1731262528353
+      }
+    ]
+  }
+}
